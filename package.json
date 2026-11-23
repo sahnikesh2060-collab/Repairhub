@@ -1,0 +1,35 @@
+{
+  "name": "repairhub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "RepairHub - on-demand home and device repair marketplace",
+  "type": "module",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c blue,magenta \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "test": "npm test -w backend",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "seed": "npm run seed -w backend",
+    "build": "npm run build -w frontend",
+    "start": "npm start -w backend",
+    "db:indexes": "npm run db:indexes -w backend",
+    "test:e2e": "npm run test:e2e -w frontend"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^10.0.1",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2"
+  }
+}

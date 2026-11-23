@@ -1,0 +1,110 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/plus-jakarta-sans';
+
+@theme {
+  --font-sans:
+    'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  /* Layered, soft elevation used by cards and popovers. */
+  --shadow-soft: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 12px -2px rgb(15 23 42 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(15 23 42 / 0.04), 0 12px 28px -6px rgb(15 23 42 / 0.12);
+  --shadow-brand: 0 8px 20px -6px rgb(37 99 235 / 0.45);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.015em;
+}
+
+::selection {
+  background: rgb(37 99 235 / 0.18);
+}
+
+/* Subtle dotted texture for hero / banner backgrounds. */
+.rh-dots {
+  background-image: radial-gradient(rgb(37 99 235 / 0.12) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Brand gradient used by banners and the auth side panel. */
+.rh-brand-gradient {
+  background:
+    radial-gradient(120% 120% at 100% 0%, rgb(96 165 250 / 0.55) 0%, transparent 55%),
+    radial-gradient(90% 90% at 0% 100%, rgb(29 78 216 / 0.9) 0%, transparent 60%),
+    linear-gradient(135deg, #1d4ed8 0%, #2563eb 55%, #3b82f6 100%);
+}
+
+/* Keep Leaflet's internal z-indexes inside the map so headers and dialogs stay on top. */
+.leaflet-container {
+  font: inherit;
+  z-index: 0;
+}
+
+/* Technician marker: an indigo dot with a soft pulse. */
+.rh-tech-pin {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: rgb(79 70 229 / 0.25);
+  animation: rh-pulse 2s ease-out infinite;
+}
+.rh-tech-pin > span {
+  position: absolute;
+  inset: 7px;
+  border-radius: 9999px;
+  background: #4f46e5;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+}
+
+@keyframes rh-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(79 70 229 / 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgb(79 70 229 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(79 70 229 / 0);
+  }
+}
+
+@keyframes rh-radar {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+.rh-radar {
+  animation: rh-radar 2.4s ease-out infinite;
+}
+.rh-radar-delay {
+  animation-delay: 1.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
