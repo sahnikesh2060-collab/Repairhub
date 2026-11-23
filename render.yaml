@@ -1,0 +1,35 @@
+# Render Blueprint: the RepairHub API (Express + Socket.io).
+# The website is deployed separately on Vercel (see vercel.json and docs/DEPLOYMENT.md).
+services:
+  - type: web
+    name: repairhub-api
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm ci --omit=dev --workspace=backend --no-audit --no-fund
+    startCommand: npm start -w backend
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: '22'
+      - key: NODE_ENV
+        value: production
+      # Behind Render's (and Vercel's) proxy: needed for secure cookies and per-client rate limits.
+      - key: TRUST_PROXY
+        value: 'true'
+      - key: COOKIE_SECURE
+        value: 'true'
+      # The website is on Vercel, not served from here.
+      - key: SERVE_FRONTEND
+        value: 'false'
+      # Set in the Render dashboard (never committed):
+      - key: MONGODB_URI
+        sync: false
+      # The Vercel URL(s) of the website, comma-separated, e.g. https://repairhub.vercel.app
+      - key: CLIENT_URL
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
