@@ -9,7 +9,8 @@ services:
     buildCommand: npm ci --omit=dev --workspace=backend --no-audit --no-fund
     startCommand: npm start -w backend
     healthCheckPath: /api/health
-    autoDeploy: true
+    # Deploy a commit only after the GitHub Actions checks (.github/workflows/ci.yml) pass.
+    autoDeployTrigger: checksPass
     envVars:
       - key: NODE_VERSION
         value: '22'

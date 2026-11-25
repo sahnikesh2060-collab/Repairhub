@@ -30,6 +30,8 @@ function securityHeaders() {
   return helmet({
     // The frontend may run on another origin and must be able to show /uploads images.
     crossOriginResourcePolicy: { policy: 'cross-origin' },
+    // OpenStreetMap blocks tile requests without a Referer; this sends only the site origin.
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {

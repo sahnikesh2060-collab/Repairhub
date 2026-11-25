@@ -99,6 +99,12 @@ Full table: [docs/PHASE_2_NOTES.md](docs/PHASE_2_NOTES.md#seed-accounts-npm-run-
 | `npm start`                       | Start the backend; in production it also serves `frontend/dist` on the same port |
 | `npm run db:indexes`              | Create / sync indexes (production deploy step)                                   |
 
+## Continuous integration
+
+GitHub Actions ([.github/workflows/ci.yml](.github/workflows/ci.yml)) runs on every push to `main` and
+every pull request: lint, format check, backend tests, frontend build, the Playwright test and a
+Docker image build. [render.yaml](render.yaml) tells Render to deploy the API only after they pass.
+
 ## Documentation
 
 - [docs/DECISIONS.md](docs/DECISIONS.md): binding architecture decisions
