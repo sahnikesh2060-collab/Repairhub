@@ -34,7 +34,8 @@ export default defineConfig({
       },
       reuseExistingServer: false,
       timeout: 240_000,
-      stdout: 'ignore',
+      // Show the stack's output in CI, where a failed start is otherwise invisible.
+      stdout: process.env.CI ? 'pipe' : 'ignore',
     },
     {
       command: 'npm run dev',

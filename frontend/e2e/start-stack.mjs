@@ -6,7 +6,8 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import { spawn, spawnSync } from 'node:child_process';
+import { once } from 'node:events';
+import { spawn } from 'node:child_process';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const backendDir = path.resolve(here, '..', '..', 'backend');
@@ -25,13 +26,16 @@ const env = {
   JWT_REFRESH_SECRET: crypto.randomBytes(48).toString('hex'),
 };
 
-const seed = spawnSync(process.execPath, ['src/seed/seed.js', '--reset'], {
+// Not spawnSync: blocking here would stop draining mongod's log pipe. The seed makes mongod log
+// more than a Linux pipe holds (64 KB), so mongod, and then the seed, would hang forever.
+const seed = spawn(process.execPath, ['src/seed/seed.js', '--reset'], {
   cwd: backendDir,
   env,
-  encoding: 'utf8',
+  stdio: ['ignore', 'ignore', 'inherit'],
 });
-if (seed.status !== 0) {
-  console.error('[e2e] seed failed', seed.stderr);
+const [seedCode] = await once(seed, 'exit');
+if (seedCode !== 0) {
+  console.error('[e2e] seed failed');
   await mongod.stop();
   process.exit(1);
 }
